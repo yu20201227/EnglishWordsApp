@@ -23,7 +23,7 @@ class LearnedWordsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .orange
+        view.backgroundColor = .gray
     }
     
     @IBAction func nextButton(sender:UIButton){
