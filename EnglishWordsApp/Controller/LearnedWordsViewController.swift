@@ -28,7 +28,7 @@ class LearnedWordsViewController: UIViewController {
     
     @IBAction func nextButton(sender:UIButton){
         startParse()
-//        performSegue(withIdentifier: "next", sender: nil)
+        performSegue(withIdentifier: "next", sender: nil)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -72,8 +72,6 @@ class LearnedWordsViewController: UIViewController {
             case .failure(let error):
                 print(error)
             }
-            
-            
             
                 }
             
