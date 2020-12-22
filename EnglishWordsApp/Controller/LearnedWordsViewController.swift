@@ -6,74 +6,62 @@
 //
 
 import UIKit
-import PKHUD
-import Firebase
-import FirebaseAuth
-import Alamofire
-import SwiftyJSON
+import VerticalCardSwiper
+import DTGradientButton
 
-class LearnedWordsViewController: UIViewController {
+
+class LearnedWordsViewController:UIViewController, VerticalCardSwiperDelegate, VerticalCardSwiperDatasource{
     
-    @IBOutlet weak var textField:UITextField!
+    @IBOutlet weak var cardSwiper:VerticalCardSwiper!
     
-    var resultAPIMeaning = String()
-    var word  = String()
-    var apikey = "MjAyMC8xMS8yOSAwNjoyMzo1NGVkMmM2NDA3LTIzNTMtNDVlOC1iOGM1LWU0MjZkMDNjZTM2MQ=="
+    var english = ["1"]
+    var japanese = ["2"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .gray
+        cardSwiper.delegate = self
+        cardSwiper.datasource = self
+        cardSwiper.register(nib:UINib(nibName: "CardViewCell", bundle: nil), forCellWithReuseIdentifier: "CardViewCell")
+        cardSwiper.reloadData()
+        
+        
     }
     
-    @IBAction func nextButton(sender:UIButton){
-        startParse()
-        performSegue(withIdentifier: "next", sender: nil)
+    
+    
+    
+    func numberOfCards(verticalCardSwiperView: VerticalCardSwiperView) -> Int {
+        //self.list.count
+    }
+
+    
+    func cardForItemAt(verticalCardSwiperView: VerticalCardSwiperView, cardForItemAt index: Int) -> CardCell {
+        if let listVC = verticalCardSwiperView.dequeueReusableCell(withReuseIdentifier: "CardViewCell", for: index) as? CardViewCell {
+            
+            verticalCardSwiperView.backgroundColor = UIColor.randomFlat()
+            view.backgroundColor = verticalCardSwiperView.backgroundColor
+            
+            let engs = english[index]
+            let japs = japanese[index]
+            CardCell.setRandomBackgroundColor()
+        }
+        
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let nextVC = segue.destination as! WordsListViewController
-        nextVC.word = textField.text!
-    }
-    
-    func startParse(){
+    //indexNumberを使った単語表示のメソッドを追加
+    func showWords(){
         
-        HUD.show(.progress)
+        let words = ["apple", "orange"]
         
-        let urlString = "https://apitore.com/store/apis/details?id=20&apikey=\(apikey)&word=\( textField.text)"
-        let encoderUrlString:String = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
-        
-
-        AF.request(encoderUrlString, method: .get, parameters: nil, encoding: JSONEncoding.default).responseJSON { [self] (response) in
-
-            switch response.result {
-
-            case .success:
-
-                let nextVC = WordsListViewController()
-                let json:JSON = JSON(response.data as? Any)
-
-                for i in 0 ..<  resultAPIMeaning.count {
-
-                    let userChoseWord = json["results"][i]["word"].string!
-                    self.resultAPIMeaning.append(userChoseWord)
-                }
-
-
-             var resultCount:Int = json["resultCount"].int!
-
-                       if 1 < resultCount {
-                        resultCount  = 1
-            
-            let oneWord = textField.text!
-             self.word.append(oneWord)
-                HUD.hide()
-                       }
-            case .failure(let error):
-                print(error)
-            }
-            
-                }
-            
+        for (index, word) in words.enumerated() {
+            print(index, word)
         }
     }
+    
+    
+    
+    
+    
+}
+

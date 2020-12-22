@@ -14,5 +14,8 @@ pod 'ChameleonFramework'
 pod 'Firebase'
 pod 'FirebaseAuth'
 pod 'PKHUD'
+pod 'VerticalCardSwiper'
+pod 'ChameleonFramework'
+pod 'DTGradientButton'
 
 end
